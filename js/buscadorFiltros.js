@@ -1,15 +1,8 @@
 let personajesGlobal = [];
 
-// Función para obtener los personajes
-async function obtenerPersonajes() {
-  const res = await fetch("https://thronesapi.com/api/v2/Characters");
-  const data = await res.json();
-  return data;
-}
-
 // Función para cargar los personajes
 async function cargarPersonajes() {
-  personajesGlobal = await obtenerPersonajes();
+  personajesGlobal = await obtenerPersonajes(); // usa la función de apiGot.js
   renderizarLista(personajesGlobal);
 }
 
@@ -63,18 +56,17 @@ function renderizarLista(lista) {
   app.appendChild(contenedor);
 }
 
-// Función para activar la búsqueda cuando se presiona Enter
+// Activar búsqueda con Enter
 function activarBusquedaConEnter(event) {
   if (event.key === "Enter") {
     buscarPersonaje();
   }
 }
 
-// Agregar evento para la tecla Enter
-document.getElementById("buscador").addEventListener("keydown", activarBusquedaConEnter);
+// Eventos
+document.addEventListener("DOMContentLoaded", () => {
+  cargarPersonajes();
 
-// Cargar los personajes al iniciar
-document.addEventListener("DOMContentLoaded", cargarPersonajes);
-
-// Agregar eventos de cambio para el filtro
-document.getElementById("filtro").addEventListener("change", filtrarPorCasa);
+  document.getElementById("buscador").addEventListener("keydown", activarBusquedaConEnter);
+  document.getElementById("filtro").addEventListener("change", filtrarPorCasa);
+});
